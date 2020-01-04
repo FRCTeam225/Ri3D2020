@@ -32,7 +32,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     colorMatcher = new ColorMatcher();
-
+    colorMatcher.Init();
+    
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);

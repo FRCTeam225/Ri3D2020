@@ -40,12 +40,19 @@ public class ColorMatcher {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-
+  //Rev Color threshold 
+  //blue 0.143, 0.427, 0.429
+  //green 0.197, 0.561, 0.240
+  //red 0.561, 0.232, 0.114
+  //yellow 0.361, 0.524, 0.113
+  
     public void Init() {
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
-        m_colorMatcher.addColorMatch(kYellowTarget);   
+        m_colorMatcher.addColorMatch(kYellowTarget);
+        
+        m_colorMatcher.setConfidenceThreshold(0.80);
     }
 
     public void Periodic() {
