@@ -3,8 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import org.robot.CheesyMath;
-import org.robot.PortMap;
+import org.techfire225.*;
 
 import frc.robot.OI;
 
