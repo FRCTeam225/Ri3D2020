@@ -1,21 +1,19 @@
-package org.robot;
+package org.techfire225;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class POV {
-
+public class Button {
 	Joystick js;
-	int desired;
-	boolean state;
+	int button;
 	boolean lastState;
-
-	public POV(Joystick js, int desired) {
+	public Button(Joystick js, int button) {
 		this.js = js;
-		this.desired = desired;
+		this.button = button;
 	}
 	
 	public boolean get() {
-		state = (js.getPOV() == desired);
+		boolean state = js.getRawButton(button);
+		
 		if ( state && !lastState ) {
 			lastState = true;
 			return true;
@@ -26,4 +24,3 @@ public class POV {
 		return false;
 	}
 }
-
