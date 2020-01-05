@@ -9,6 +9,7 @@ import frc.robot.OI;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Counter;
 
 public class Climber {
 
@@ -18,6 +19,8 @@ public class Climber {
 
     CANSparkMax balance = new CANSparkMax(PortMap.balancePort, MotorType.kBrushless);
 
+    Counter hexEnc = new Counter(PortMap.balanceEnc);
+
     public void set(double speed) {
         for(CANSparkMax climber : climberMotors)
             climber.set(speed);
@@ -26,4 +29,14 @@ public class Climber {
     public void setBalance(double speed){
         balance.set(speed);
     }
+
+    public double getPos(){
+        return climberMotors[0].getEncoder().getPosition();
+    }
+
+    /*public double getBalPos(){
+        return hexEnc.get();
+    }*/
+
+    
 }
