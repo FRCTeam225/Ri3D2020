@@ -1,7 +1,6 @@
 package org.robot;
 
 import org.robot.Constants;
-import org.robot.OI;
 
 public class CheesyMath {
     
@@ -35,7 +34,7 @@ public class CheesyMath {
             turn = turnInput*turn_gain;
         }
         else
-            turn = (turnInput*turn_gain)*Math.abs(turn_velocity_multiplier_gain*OI.driver.getRawAxis(1));
+            turn = (turnInput*turn_gain)*Math.abs(turn_velocity_multiplier_gain*throttle);
         
         double left_orig = throttle-turn;
         double right_orig = throttle+turn;

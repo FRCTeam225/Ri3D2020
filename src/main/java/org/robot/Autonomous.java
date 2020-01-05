@@ -1,4 +1,4 @@
-package org.firstcapital.robot;
+package org.robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
