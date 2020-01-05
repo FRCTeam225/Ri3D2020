@@ -135,6 +135,7 @@ $RECYCLE.BIN/
 *.lnk
 
 ### Gradle ###
+gradlew
 .gradle
 /build/
 
