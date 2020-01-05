@@ -1,7 +1,5 @@
 package frc.robot;
 
-//import org.firstcapital.robot.commands.elevator.*;
-//import org.firstcapital.robot.commands.drivetrain.*;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class OI {

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TechFire</title>
+		<script src="jquery.min.js"></script>
+		<script src="vue.js"></script>
+		<script src="smoothie.js"></script>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+		<style type="text/css">
+			td {
+				float: right;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-static-top">
+	        <div class="container">
+	            <div class="navbar-header">
+	                <a class="navbar-brand" href="/index.html">TechFire</a>
+	            </div>
+	            <ul class="nav navbar-nav">
+	                <li><a href="constants.html">Constants</a></li>
+					<li><a href="firescope.html">FireScope</a></li>
+					<li><a href="values.html">Values</a></li>
+	            </ul>
+	        </div>
+	    </nav>  
+        
+    <div class="container">
+
+			<div id="values">
+				<h1 class="page-header">Raw Values</h1>
+				<table class="table">
+					<tr v-for="(v,k) in topics">
+						<th>{{k}}</th>
+						<td>{{v}}</td>
+					</tr>
+				</table>
+			</div>
+    </div>
+
+    <script type="text/javascript">
+
+
+			var valueTable = new Vue({
+				el:"#values",
+				data: {
+					topics: {}
+				}
+			});
+
+
+		var sock = new WebSocket("ws://10.2.25.2:5801/state/socket");
+
+
+    	var isFirstMessage = true;
+    	var tStart = 0;
+    	var tLocalStart = 0;
+			var msgCount = 0;
+	    sock.onmessage = function(rawmsg) {
+				var msg = JSON.parse(rawmsg.data);
+				if ( msgCount % 10 == 0 )
+					valueTable.topics = msg;
+				msgCount++;
+	    };
+
+	    sock.onerror = function() {
+	    	console.log("Disconnected");
+	    };
+
+	    sock.onclose = function() {
+	    	console.log("Disconnected");
+	    };
+		
+    </script>
+  </body>
+</html>

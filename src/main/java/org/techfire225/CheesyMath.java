@@ -1,15 +1,10 @@
 package org.techfire225;
 
-import org.techfire225.Constants;
-
 public class CheesyMath {
-    
     double turn_gain = .6;
     double skim_gain = 0;
     double turn_velocity_multiplier_gain = 1.1;
     
-    Constants constants = Constants.getConstants();
-
     double wheelNonLinearity = 0.5;
     double leftOutput = 0;
     double rightOutput = 0;

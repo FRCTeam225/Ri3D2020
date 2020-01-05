@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Vision</title>
+		<script src="jquery.min.js"></script>
+		<script src="vue.js"></script>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-static-top">
+	        <div class="container">
+	            <div class="navbar-header">
+	                <a class="navbar-brand" href="/index.html">TechFire</a>
+	            </div>
+	            <ul class="nav navbar-nav">
+	                <li><a href="dashboard.html">Dashboard</a></li>
+	                <li><a href="constants.html">Constants</a></li>
+	                <li><a href="subsystems.html">Subsystems</a></li>
+	                <li><a href="vision.html">Vision Debug</a></li>
+	                <li><a href="view.html">View Camera</a></li>
+	            </ul>
+	        </div>
+	    </nav>    
+        
+	<div id="main" class="container">
+		<h1 class="page-header">Vision</h1>
+		<div class="col-xs-6">
+			<img style="width:100%" src="http://10.2.25.2:5800"></img>
+		</div>
+		
+		<div class="col-xs-6">
+			<table class="table">
+				<tr>
+					<th>Connected</th>
+					<td>{{phone.connected}}</td>
+				</tr>
+				
+				<tr>
+					<th>Theta Error</th>
+					<td>{{phone.theta}}</td>
+				</tr>
+				
+				<tr>
+					<th>Distance</th>
+					<td>{{phone.distance}}</td>
+				</tr>
+				
+				<tr>
+					<th>Hat Theta Error</th>
+					<td>{{phone.hatTheta}}</td>
+				</tr>
+			</table>
+			
+			<button class="btn btn-warning" v-on:click="restartVision()">Restart App</button>
+			<button class="btn btn-danger" v-on:click="killVision()">Kill App</button>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+
+
+	var app = new Vue({
+		el: '#main',
+		data: {
+	        phone: {connected: false, distance: 0, theta: 0}
+		},
+		methods: {
+			killVision: function() {
+				$.getJSON("/state/phone/kill", function(res) {});
+			},
+			
+			restartVision: function() {
+				$.getJSON("/state/phone/restart", function(res) {});
+			}
+		}
+	});
+	
+	
+	setInterval(function() {
+		$.getJSON("/state/phone", function(data) {
+			Vue.set(app, "phone", data);
+		});
+	}, 500);
+    
+	</script>
+	</body>
+</html>

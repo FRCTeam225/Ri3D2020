@@ -10,8 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.ColorMatcher;
-import frc.robot.Drivetrain;
+import frc.robot.subsystems.ColorMatcher;
+import frc.robot.subsystems.Drivetrain;
 
 public class Robot extends TimedRobot {
   Compressor compressor = new Compressor();

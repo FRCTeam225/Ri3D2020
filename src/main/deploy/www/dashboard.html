@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Match Dashboard</title>
+		<script src="jquery.min.js"></script>
+		<script src="vue.js"></script>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-static-top">
+	        <div class="container">
+	            <div class="navbar-header">
+	                <a class="navbar-brand" href="/index.html">TechFire</a>
+	            </div>
+	            <ul class="nav navbar-nav">
+	                <li><a href="dashboard.html">Dashboard</a></li>
+	                <li><a href="constants.html">Constants</a></li>
+	                <li><a href="firescope.html">FileScope</a></li>
+	            </ul>
+	        </div>
+	    </nav>
+	    <br>
+        <div id="main">
+            <div id="connectDialog" class="alert alert-danger">Reconnecting to robot...</div>
+            
+            <div class="col-xs-6">
+                <img style="width:100%" src="http://10.2.25.2:5800"></img>
+            </div>
+            
+            <div class="col-xs-6">
+                <h1 class="page-header">RPM Adjustment: {{robot.shooterRPMAdjustment}}</h1>
+                <h1 class="page-header">Distance: {{robot.visionDistance}}</h1>
+                
+                <h1 class="page-header">Shooter: {{robot.shooterMode}} Setpoint: {{robot.shooterSetpoint}}</h1>
+                <h1 class="page-header">Drivetrain: {{robot.drivetrainMode}}</h1>
+                <h1 class="page-header">Hopper: {{robot.hopperMode}}</h1>
+                <h1 class="page-header">Gear Holder: {{robot.gearHolderMode}}</h1>
+                <h1 class="page-header">Climber: {{robot.climberMode}}</h1>
+                    
+            </div>
+        </div>
+	</body>
+
+	<script type="text/javascript">
+	var app = new Vue({
+		el: '#main',
+		data: {
+            robot: []
+		}
+	});
+    
+    
+    function connect() {
+        var sock = new WebSocket("ws://10.2.25.2:5801/state/slowsocket");
+    
+        sock.onopen = function() {
+            $("#connectDialog").hide();
+        };
+    
+        sock.onmessage = function(rawmsg) {
+            var msg = JSON.parse(rawmsg.data);
+            Vue.set(app, 'robot', msg.topics);
+        };
+    
+        sock.onclose = function() {
+            $("#connectDialog").show();
+            setTimeout(connect, 500);
+        };
+    }
+    
+	connect();
+    
+	</script>
+</html>

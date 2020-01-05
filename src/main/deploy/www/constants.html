@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Constants</title>
+        <script src="jquery.min.js"></script>
+        <script src="vue.js"></script>
+        <link rel="stylesheet" href="bootstrap.min.css" />
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/index.html">TechFire</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="constants.html">Constants</a></li>
+                    <li><a href="firescope.html">FireScope</a></li>
+                    <li><a href="values.html">Values</a></li>
+                </ul>
+            </div>
+        </nav>
+    <div id="main" class="container">
+    <h1 class="page-header">Constants</h1>
+    <table class="table">
+        <tr v-for="(v,k) in constants">
+            <th>{{k}}</th>
+            <td>
+                <input class="form-control" v-model="constants[k]" @keydown="markChanged(k)"> 
+                <input v-show="staged[k]" type="submit" class="btn btn-success" @click="pushUpdate(k)" value="Update">
+            </td>
+        </tr>
+    </table>
+    </div>
+    
+    <script type="text/javascript">
+    var app = new Vue({
+        el: '#main',
+        data: {
+            constants: {},
+            staged: {}
+        },
+        methods: {
+            markChanged: function(k) {
+                Vue.set(this.staged, k, true);
+            },
+
+            pushUpdate: function(k) {
+                var self = this;
+                $.getJSON("/constants/update?k="+encodeURIComponent(k)+"&v="+encodeURIComponent(this.constants[k]), function(d) {
+                    if ( !d )
+                        alert("Failed to set constant (500)");
+                    else if ( !d.success )
+                        alert("Failed to set constant ("+d.error+")");
+                    else {
+                        // hack for triggering vue's setter
+                        Vue.set(self.staged, k, false);
+                    }
+                })
+                .error(function(err) {
+                    alert("Error ("+err.statusText+")");
+                });
+            }
+        }
+    });
+    
+    $.getJSON("/constants/list", function(data) {
+        app.constants = data;
+    });
+    </script>
+    </body>
+</html>

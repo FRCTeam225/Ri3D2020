@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <title>firescope</title>
+        <script src="smoothie.js"></script>
+        <script src="vue.js"></script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+
+            header {
+                padding: 5px;
+                height: 30px;
+                background-color: black;
+                color: white;
+            }
+
+            header .left {
+                font-size: 20px;
+            }
+
+            header .right {
+                float: right;
+            }
+
+            .modal {
+                position: absolute;
+                top: 20%;
+                left: 0;
+                right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                height: 500px;
+                width: 500px;
+                background-color: #FFFFFF;
+                padding-left: 10px;
+            }
+
+            canvas {
+                width: 100%;
+                height: 760px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="app">
+            <header>
+                <div class="left">firescope</span>
+                <div class="right">
+                    <button v-on:click="modal='plots'">Plots</button>
+                    <button v-on:click="modal='scale'">Scale</button>
+                </div>
+            </header>
+
+            <div v-if="modal == 'plots'" class="modal">
+                <h3>Plots</h3>
+                <ul>
+                    <li v-for="(plot, idx) in plots">{{plot.topic}}<button v-on:click="removePlot(idx)">Remove</button></li>
+                </ul>
+                <h4>Add Plot</h4>
+                <strong>Topic:</strong>
+                <select v-model="selectedAddTopic">
+                    <option v-for="topic in topics" v-bind:value="topic">{{topic}}</option>
+                </select>
+                <input type="color" v-model="selectedAddTopicColor" />
+                <br>
+                <button v-on:click="addPlot">Add</button>
+                <button v-on:click="modal = '';reinitChart()">Save</button>
+            </div>
+            <div v-if="modal == 'scale'" class="modal">
+                <h3>Scale</h3>
+                <label>
+                    Max value: 
+                    <input type="text" v-model="maxValue" />
+                </label>
+                <br>
+                <label>
+                    Min value: 
+                    <input type="text" v-model="minValue" />
+                </label>
+                <br>
+                <label> 
+                    Units/division:
+                    <input type="text" v-model="unitsPerDivision" />
+                </label>
+                <br>
+                <button v-on:click="modal = '';reinitChart()">Save</button>
+            </div>        
+ 
+        </div>
+
+        <canvas id="canvas"></canvas>
+
+        <script type="text/javascript" src="scope.js"></script>
+    </body>
+</html>
