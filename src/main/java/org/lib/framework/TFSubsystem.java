@@ -1,4 +1,4 @@
-package org.firstcapital.lib.framework;
+package org.lib.framework;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 

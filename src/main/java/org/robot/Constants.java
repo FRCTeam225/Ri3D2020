@@ -10,43 +10,7 @@ public class Constants {
     private static Constants instance = null;
 
     public static Constants getConstants() {
-        // Swap out practice robot constants here
-        if (isCompbot){
-            instance = new Constants();
-            
-        }
-        else {
-             // Copy every defined variable in PracticeRobotConstants to Constants
-        instance = new Constants();
-        PracticeConstants practiceConstants = new PracticeConstants();
-        Field[] fields = practiceConstants.getClass().getDeclaredFields();
-
-        Class instanceClass = instance.getClass();
-        for ( Field f : fields ) {
-            if ( (f.getModifiers()&Modifier.PUBLIC) == 0 )
-                continue;
-
-            try {
-                Field field = instanceClass.getDeclaredField(f.getName());
-
-                if ( f.getType() == double.class ) {
-                    field.setDouble(instance, (double)f.getDouble(practiceConstants));
-                }
-                else if ( f.getType() == int.class ) {
-                    field.setInt(instance, (int)f.getInt(practiceConstants));
-                }
-                else if ( f.getType() == float.class ) {
-                    field.setFloat(instance, (float)f.getFloat(practiceConstants));
-                }
-            } catch (Exception e) {
-                System.out.println("Couldn't load field "+f.getName()+" from PracticeRobotConstants");
-            }
-        }
-
-        System.out.println("Practice ");
-        
-        }
-        return instance;
+        return new Constants();
     }
         
     public double TriggerDeadband = 0.1;
