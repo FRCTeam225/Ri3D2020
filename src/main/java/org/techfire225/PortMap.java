@@ -2,6 +2,7 @@ package org.techfire225;
 
 public class PortMap {
     
+    // CAN IDs
     public static final int[] leftPort = {1, 2, 3};
     public static final int[] rightPort = {4, 5, 6};
     public static final int intakePort = 7;
@@ -11,5 +12,8 @@ public class PortMap {
     public static final int[] climberPort = {13,14};
     public static final int balancePort = 15;
     public static final int colorPort = 16;
+
+    //PCM IDs
+    public static final int flipPort = 1;
    
 }
