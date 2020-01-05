@@ -2,7 +2,7 @@ package org.auto.lib;
 
 import java.util.ArrayList;
 
-import org.robot.*;
+import org.techfire225.*;
 import org.auto.lib.*;
 
 public class AutonomousSequence {

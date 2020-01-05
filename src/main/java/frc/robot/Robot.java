@@ -5,13 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.robot;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ColorMatcher;
 import frc.robot.Drivetrain;
 
@@ -19,14 +17,17 @@ public class Robot extends TimedRobot {
   Compressor compressor = new Compressor();
   Drivetrain drivetrain = new Drivetrain();
   Joystick driver = new Joystick(0);
+  ColorMatcher colorMatcher = new ColorMatcher();
 
   @Override
   public void robotInit() {
     compressor.start();
+    colorMatcher.Init();
   }
 
   @Override
   public void robotPeriodic() {
+    colorMatcher.Periodic();
   }
 
   @Override

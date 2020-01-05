@@ -3,7 +3,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import org.robot.CheesyMath;
+import org.techfire225.CheesyMath;
 import frc.robot.OI;
 
 import edu.wpi.first.wpilibj.Joystick;
