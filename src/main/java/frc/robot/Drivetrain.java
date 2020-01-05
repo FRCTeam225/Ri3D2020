@@ -25,7 +25,7 @@ public class Drivetrain {
     };
 
     public void cheesydrive(Joystick driver) {
-        cheesydrive.update(driver.getRawAxis(OI.LY), driver.getRawAxis(OI.RX));
+        cheesydrive.update(driver.getRawAxis(OI.LY), -driver.getRawAxis(OI.RX));
 
         set(cheesydrive.getLeftOutput(), cheesydrive.getRightOutput());
     }
