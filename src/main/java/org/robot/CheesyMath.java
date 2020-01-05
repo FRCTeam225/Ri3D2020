@@ -1,7 +1,6 @@
 package org.robot;
 
 import org.robot.Constants;
-import org.robot.OI;
 
 public class CheesyMath {
     
