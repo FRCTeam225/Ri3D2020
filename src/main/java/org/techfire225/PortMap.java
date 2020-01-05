@@ -16,4 +16,6 @@ public class PortMap {
     //PCM IDs
     public static final int flipPort = 1;
    
+    //DIO 
+    public static final int balanceEnc = 0;
 }
