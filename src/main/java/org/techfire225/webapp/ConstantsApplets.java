@@ -6,6 +6,8 @@ import java.lang.reflect.Modifier;
 import javax.servlet.http.*;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.subsystems.Shooter;
 
 import com.google.gson.JsonObject;
 
@@ -83,6 +85,8 @@ public class ConstantsApplets {
 					out.addProperty("success", false);
 					out.addProperty("error", "type unsupported");
 				}
+
+				Robot.shooter.updateConstants();
 
 				res.setContentType("application/json");
 				res.setStatus(HttpServletResponse.SC_OK);
