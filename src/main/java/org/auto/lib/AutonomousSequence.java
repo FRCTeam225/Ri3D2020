@@ -2,9 +2,6 @@ package org.auto.lib;
 
 import java.util.ArrayList;
 
-import org.techfire225.*;
-import org.auto.lib.*;
-
 public class AutonomousSequence {
   ArrayList<AutonomousStep> autonomousSteps;
  //public Constants constants = Constants.getConstants();
@@ -33,6 +30,10 @@ public class AutonomousSequence {
     running = false;
   }
   
+  public boolean isRunning() {
+    return running;
+  }
+
   public void append(AutonomousSequence auto){
 	  for (AutonomousStep step : auto.autonomousSteps){
 		  autonomousSteps.add(step);
