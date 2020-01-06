@@ -13,9 +13,12 @@ public class PortMap {
     public static final int BALANCE_CAN = 15;
     public static final int COLOR_PWM = 16;
 
+    public static final int TOF_FIRST_CAN = 17;
+    public static final int TOF_SECOND_CAN = 18;
+
     //PCM IDs
-    public static final int INTAKE_SOLENOID = 1;
-   
-    //DIO 
-    public static final int BALANCE_DIO = 0;
+    public static final int INTAKE_SOLENOID = 0;
+    public static final int COLORWHEEL_SOLENOID = 1;
+    public static final int SHIFT_SOLENOID = 2;
+    public static final int CLIMB_SOLENOID = 3;
 }

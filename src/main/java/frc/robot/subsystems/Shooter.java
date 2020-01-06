@@ -32,11 +32,11 @@ public class Shooter {
       for ( CANSparkMax motor : shooter_motors ) {
           motor.setIdleMode(IdleMode.kCoast);
       }
-
       encoder = shooter_motors[0].getEncoder();
       controller = shooter_motors[0].getPIDController();
-
+      controller.setFeedbackDevice(encoder);
       stop();
+      updateConstants();
   }
 
   public void set(double setpoint) {
@@ -48,10 +48,15 @@ public class Shooter {
     controller.setReference(0, ControlType.kDutyCycle);
   }
 
+  public void update() {
+    FireLog.log("shooterVelocity", Math.abs(encoder.getVelocity()));
+  }
+
   public void updateConstants() {
+    controller.setOutputRange(-1, 0);
     controller.setP(constants.shooterP);
-    controller.setP(constants.shooterI);
-    controller.setP(constants.shooterD);
+    controller.setI(constants.shooterI);
+    controller.setD(constants.shooterD);
     controller.setFF(constants.shooterF);
   }
 }

@@ -9,13 +9,17 @@ public class Constants {
         return instance;
     }
 
-    public double indexer_speed = 1.0;
+    public double indexer_speed = 0.8;
     public double feeder_speed = 1.0;
+    public double intake_speed = 1.0;
 
-    public double shooterP = 0;
+    public double shooterP = 0.0011;
     public double shooterI = 0;
-    public double shooterD = 0;
-    public double shooterF = 0;
+    public double shooterD = 4;
+    public double shooterF = 0.00017;
 
-    public double debugShooterSet = -3000;
+    public double visionP = -0.04;
+    public double visionLimit = 0.5;
+
+    public double debugShooterSet = -4000;
 }

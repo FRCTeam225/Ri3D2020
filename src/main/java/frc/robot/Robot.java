@@ -15,15 +15,15 @@ public class Robot extends TimedRobot {
 
   Joystick driver = new Joystick(0);
   Joystick operator = new Joystick(1);
-  ColorMatcher colorMatcher = new ColorMatcher();
+  ColorMatcher colorMatcher;
 
   Webserver webserver;
 
   @Override
   public void robotInit() {
-    compressor.start();
-    colorMatcher.Init();
+    compressor.stop();
 
+    colorMatcher = new ColorMatcher();
     drivetrain = new Drivetrain();
     shooter = new Shooter();
     intake = new Intake();
@@ -38,7 +38,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    drivetrain.update();
     colorMatcher.Periodic();
+    intake.update();
     shooter.update();
   }
 
@@ -62,7 +64,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    drivetrain.cheesydrive(driver);
+
+    if ( driver.getRawButton(OI.RB) )
+      drivetrain.vision_align();
+    else
+      drivetrain.cheesydrive(driver);
     intake.set(operator.getRawButton(OI.A) || operator.getRawButton(OI.B), operator.getRawButton(OI.B));
     
     if ( operator.getRawButton(OI.Y) )

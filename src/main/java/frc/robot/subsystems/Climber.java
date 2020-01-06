@@ -21,7 +21,6 @@ public class Climber {
 
     CANSparkMax balance = new CANSparkMax(PortMap.BALANCE_CAN, MotorType.kBrushless);
 
-    Counter hexEnc = new Counter(PortMap.BALANCE_DIO);
 
     public void set(double speed) {
         for(CANSparkMax climber : climberMotors)
