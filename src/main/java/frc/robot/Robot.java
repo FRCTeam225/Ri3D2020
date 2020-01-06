@@ -12,6 +12,7 @@ public class Robot extends TimedRobot {
   public static Drivetrain drivetrain;
   public static Shooter shooter;
   public static Intake intake;
+  public static ColorSpinner colorSpin;
 
   Joystick driver = new Joystick(0);
   Joystick operator = new Joystick(1);
@@ -69,6 +70,8 @@ public class Robot extends TimedRobot {
       shooter.set(Constants.getConstants().debugShooterSet);
     if ( operator.getRawButton(OI.X) )
       shooter.stop();
+
+      colorMatcher.Periodic();
   }
 
   /**
