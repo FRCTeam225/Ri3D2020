@@ -18,4 +18,9 @@ public class Constants {
     public double shooterF = 0;
 
     public double debugShooterSet = -3000;
+
+    public double colorwheel_fast = 0.4;
+    public double colorwheel_slow = 0.3;
+
+    public byte panelsToSpin = 26;
 }
