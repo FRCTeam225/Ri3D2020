@@ -13,7 +13,7 @@ public class Robot extends TimedRobot {
   public static Shooter shooter;
   public static Intake intake;
   public static ColorSpinner colorSpin;
-  public static ColorMatcher colorMatcher = new ColorMatcher();
+  public static ColorMatcher colorMatcher;
 
   Joystick driver = new Joystick(0);
   Joystick operator = new Joystick(1);
@@ -28,7 +28,11 @@ public class Robot extends TimedRobot {
     drivetrain = new Drivetrain();
     shooter = new Shooter();
     intake = new Intake();
+    colorSpin = new ColorSpinner();
 
+    colorSpin.Init();
+    colorMatcher.Init();
+    
     try {
       webserver = new Webserver();
     }

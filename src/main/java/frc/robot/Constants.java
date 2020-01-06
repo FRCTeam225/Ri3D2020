@@ -22,4 +22,8 @@ public class Constants {
     public double visionLimit = 0.5;
 
     public double debugShooterSet = -4000;
+
+    public double colorwheel_slow = 0.2;
+    public double colorwheel_fast= 0.3;
+    public byte panelsToSpin = 26;
 }
