@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.techfire225.*;
 import org.techfire225.webapp.FireLog;
 
 import frc.robot.Constants;
@@ -34,8 +35,8 @@ public class Climber {
 
         lockSolenoid.set(Math.abs(speed) > 0);
 
-        for(CANSparkMax climber : climberMotors)
-            climber.set(speed);
+        climberMotors[0].set(speed);
+        climberMotors[1].set(-speed);
     }
 
     public double getPos() {

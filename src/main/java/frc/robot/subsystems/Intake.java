@@ -9,9 +9,11 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.platform.can.AutocacheState;
 import com.playingwithfusion.TimeOfFlight;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.PortMap;
 
@@ -31,11 +33,12 @@ public class Intake {
     Constants constants = Constants.getConstants();
 
     enum State {
-        DISABLED,
-        AUTOINTAKE,
-        SHOOT,
+        WAITING_FOR_BALL,
+        CLEAR_INTAKE,
+        INTAKE_KICKBACK,
     };
-    State state = State.AUTOINTAKE;
+    State state = State.WAITING_FOR_BALL;
+    Timer wait_timer = new Timer();
 
     public Intake() {
         intake_solenoid.set(true);
@@ -46,18 +49,34 @@ public class Intake {
     }
 
     public void autointake() {
-        intake_solenoid.set(true);
         intake_motor.set(constants.intake_speed);
-        if ( index_sensor.getRange() < constants.autointake_threshold ) {
-            feeder_motor.set(constants.autointake_speed);
-            for ( TalonSRX motor : indexer_motors ) {
-                motor.set(ControlMode.PercentOutput, constants.autointake_speed);
+        intake_solenoid.set(true);
+        if ( state == State.WAITING_FOR_BALL ) {
+            if ( index_sensor.getRange() < constants.autointake_threshold )
+                state = State.CLEAR_INTAKE;
+        }
+        else if ( state == State.CLEAR_INTAKE ) {
+            if ( index_sensor.getRange() < constants.autointake_threshold ) {
+                feeder_motor.set(constants.autointake_speed_top);
+                for ( TalonSRX motor : indexer_motors ) {
+                    motor.set(ControlMode.PercentOutput, constants.autointake_speed);
+                }
+            }
+            else {
+                state = State.INTAKE_KICKBACK;
+                wait_timer.reset();
+                wait_timer.start();
+                feeder_motor.set(0);
+                for ( TalonSRX motor : indexer_motors ) {
+                    motor.set(ControlMode.PercentOutput, 0);
+                }
             }
         }
-        else {
-            feeder_motor.set(0);
-            for ( TalonSRX motor : indexer_motors ) {
-                motor.set(ControlMode.PercentOutput, 0);
+        else if ( state == State.INTAKE_KICKBACK ) {
+            feeder_motor.set(constants.autointake_speed_kickback);
+            if ( wait_timer.get() > constants.autointake_delay ) {
+                feeder_motor.set(0);
+                state = State.WAITING_FOR_BALL;
             }
         }
     }
@@ -81,6 +100,7 @@ public class Intake {
     }
 
     public void shoot() {
+        intake_motor.set(constants.intake_speed);
         feeder_motor.set(constants.shoot_speed);
         for ( TalonSRX motor : indexer_motors ) {
             motor.set(ControlMode.PercentOutput, constants.shoot_speed);

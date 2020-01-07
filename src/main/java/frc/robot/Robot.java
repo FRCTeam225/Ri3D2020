@@ -13,6 +13,7 @@ public class Robot extends TimedRobot {
   public static Drivetrain drivetrain;
   public static Shooter shooter;
   public static Intake intake;
+  public static Climber climber;
   public static ColorSpinner colorSpin;
 
   Joystick driver = new Joystick(0);
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
     shooter = new Shooter();
     intake = new Intake();
     colorSpin = new ColorSpinner();
+    climber = new Climber();
 
 //    colorSpin.Init();
 //    colorMatcher.Init();
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
     colorSpin.update();
     intake.update();
     shooter.update();
+    climber.update();
   }
 
   @Override
@@ -102,6 +105,7 @@ public class Robot extends TimedRobot {
       colorSpin.find_color();
     }
 
+    climber.set(-operator.getRawAxis(OI.LY));
     colorSpin.setHeight(operator.getRawButton(OI.START));
     //colorSpin.SpinMotor(operator.getRawAxis(OI.LY)); 
     //colorSpin.Periodic();

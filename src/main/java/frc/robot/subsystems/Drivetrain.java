@@ -59,8 +59,8 @@ public class Drivetrain {
 
     public void set(double left_speed, double right_speed) {
         for ( CANSparkMax m_left : left )
-            m_left.set(-left_speed);
+            m_left.set(-left_speed*0.5);
         for ( CANSparkMax m_right : right )
-            m_right.set(right_speed);
+            m_right.set(right_speed*0.5);
     }
 }
