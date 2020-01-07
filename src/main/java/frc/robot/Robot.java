@@ -5,6 +5,7 @@ import org.techfire225.webapp.Webserver;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -17,12 +18,13 @@ public class Robot extends TimedRobot {
 
   Joystick driver = new Joystick(0);
   Joystick operator = new Joystick(1);
+  JoystickButton triggerColorwheel = new JoystickButton(operator, OI.START);
 
   Webserver webserver;
 
   @Override
   public void robotInit() {
-    compressor.stop();
+    compressor.start();
 
     colorMatcher = new ColorMatcher();
     drivetrain = new Drivetrain();
@@ -30,8 +32,8 @@ public class Robot extends TimedRobot {
     intake = new Intake();
     colorSpin = new ColorSpinner();
 
-    colorSpin.Init();
-    colorMatcher.Init();
+//    colorSpin.Init();
+//    colorMatcher.Init();
     
     try {
       webserver = new Webserver();
@@ -44,7 +46,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     drivetrain.update();
-    colorMatcher.Periodic();
+    colorSpin.update();
     intake.update();
     shooter.update();
   }
@@ -69,23 +71,43 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
-    if ( driver.getRawButton(OI.RB) )
+    if ( driver.getRawButton(OI.RB) ) {
       drivetrain.vision_align();
+      shooter.set(Constants.getConstants().debugShooterSet);
+    }
     else
       drivetrain.cheesydrive(driver);
-    intake.set(operator.getRawButton(OI.A) || operator.getRawButton(OI.B), operator.getRawButton(OI.B));
     
-    if ( operator.getRawButton(OI.Y) )
-      shooter.set(Constants.getConstants().debugShooterSet);
-    if ( operator.getRawButton(OI.X) )
+    if ( operator.getRawButton(OI.A) ) {
+      intake.autointake();
+    }
+    else if ( operator.getRawButton(OI.B) ) {
+      intake.eject();
+    }
+    else if ( operator.getRawButton(OI.RT) ) {
+      intake.shoot();
+    }
+    else {
+      intake.disable();
+    }
+    
+    if ( operator.getRawButton(OI.X) ) {
       shooter.stop();
-    if ( operator.getRawButton(OI.LB) )
-      colorSpin.StartRotation();
-    if ( operator.getRawButton(OI.RB) )
-      colorSpin.StartColorFind();
+      colorSpin.stop();
 
-      colorSpin.Periodic();
+    }
+    if ( operator.getRawButton(OI.LB) ) {
+      colorSpin.run_encoder();
+      System.out.println("Start rotation");
+    }
+    if ( operator.getRawButton(OI.RB) ) {
+      System.out.println("Start color find colorwheel");
+      colorSpin.StartColorFind();
+    }
+
+    colorSpin.setHeight(operator.getRawButton(OI.START));
+    //colorSpin.SpinMotor(operator.getRawAxis(OI.LY)); 
+    //colorSpin.Periodic();
   }
 
   /**

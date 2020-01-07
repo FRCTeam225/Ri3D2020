@@ -5,19 +5,62 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.auto.lib.AutonomousSequence;
+import org.techfire225.webapp.FireLog;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import frc.robot.Constants;
 import frc.robot.PortMap;
 import frc.robot.steps.FindColorWheelSlot;
 import frc.robot.steps.SpinColorWheel;
+import frc.robot.subsystems.Intake.State;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class ColorSpinner {
     CANSparkMax drive = new CANSparkMax(PortMap.COLOR_CAN, MotorType.kBrushless);
     Solenoid drop = new Solenoid(PortMap.COLORWHEEL_SOLENOID);
     AutonomousSequence seq = new AutonomousSequence();
+
+    Constants constants = Constants.getConstants();
+
+    enum State {
+        DISABLED,
+        ENC_ROTATE,
+        COLOR_ROTATE,
+    };
+
+    State state = State.DISABLED;
+    Color expectedColor;
+    
+    public void update() {
+        FireLog.log("colorwheelpos", drive.getEncoder().getPosition());
+        if ( state == State.DISABLED ) {
+            drive.set(0);
+        }
+        else if ( state == State.ENC_ROTATE ) {
+            if ( drive.getEncoder().getPosition() < constants.colorwheel_ticks ) {
+                drive.set(constants.colorwheel_fast);
+            }
+            else {
+                state = State.DISABLED;
+            }
+        }
+        else if ( state == State.COLOR_ROTATE ) {
+
+        }
+    }
+
+    public void stop() {
+        state = State.DISABLED;
+    }
+
+    public void run_encoder() {
+        if ( state != State.ENC_ROTATE ) {
+            drive.getEncoder().setPosition(0);
+            state = State.ENC_ROTATE;
+        }
+    }
 
     Color[] ColorWheel = new Color[] {
         ColorMatcher.kGreenTarget,
@@ -48,6 +91,10 @@ public class ColorSpinner {
         //if a color wheel operation is going, don't change it
         if(seq.isRunning() == true) return;
         seq.addStep(new SpinColorWheel());
+    }
+
+    public void setHeight(boolean state) {
+        drop.set(state);
     }
 
     public void StartColorFind() {
