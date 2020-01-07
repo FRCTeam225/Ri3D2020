@@ -14,7 +14,6 @@ public class Robot extends TimedRobot {
   public static Shooter shooter;
   public static Intake intake;
   public static ColorSpinner colorSpin;
-  public static ColorMatcher colorMatcher;
 
   Joystick driver = new Joystick(0);
   Joystick operator = new Joystick(1);
@@ -26,7 +25,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     compressor.start();
 
-    colorMatcher = new ColorMatcher();
     drivetrain = new Drivetrain();
     shooter = new Shooter();
     intake = new Intake();
@@ -84,7 +82,7 @@ public class Robot extends TimedRobot {
     else if ( operator.getRawButton(OI.B) ) {
       intake.eject();
     }
-    else if ( operator.getRawButton(OI.RT) ) {
+    else if ( driver.getRawButton(OI.LB) ) {
       intake.shoot();
     }
     else {
@@ -94,7 +92,6 @@ public class Robot extends TimedRobot {
     if ( operator.getRawButton(OI.X) ) {
       shooter.stop();
       colorSpin.stop();
-
     }
     if ( operator.getRawButton(OI.LB) ) {
       colorSpin.run_encoder();
@@ -102,7 +99,7 @@ public class Robot extends TimedRobot {
     }
     if ( operator.getRawButton(OI.RB) ) {
       System.out.println("Start color find colorwheel");
-      colorSpin.StartColorFind();
+      colorSpin.find_color();
     }
 
     colorSpin.setHeight(operator.getRawButton(OI.START));

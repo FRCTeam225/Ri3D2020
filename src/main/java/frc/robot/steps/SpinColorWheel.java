@@ -30,7 +30,7 @@ public class SpinColorWheel implements AutonomousStep {
         //shift buffer with last 3 results
         colorReadings[2] = colorReadings[1];
         colorReadings[1] = colorReadings[0];
-        colorReadings[0] = Robot.colorMatcher.getResult().color;
+        //colorReadings[0] = Robot.colorMatcher.getResult().color;
 
         //see if we have had consistent color readings 3 samples in a row
         if ((colorReadings[0] == colorReadings[1]) && (colorReadings[1] == colorReadings[2])) {

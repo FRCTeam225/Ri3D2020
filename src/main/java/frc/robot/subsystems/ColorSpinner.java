@@ -22,16 +22,20 @@ public class ColorSpinner {
     Solenoid drop = new Solenoid(PortMap.COLORWHEEL_SOLENOID);
     AutonomousSequence seq = new AutonomousSequence();
 
+    ColorMatcher matcher = new ColorMatcher();
+
     Constants constants = Constants.getConstants();
 
     enum State {
         DISABLED,
         ENC_ROTATE,
         COLOR_ROTATE,
+        COLOR_ROTATE_FINAL,
     };
 
     State state = State.DISABLED;
-    Color expectedColor;
+    Color expectedColor = ColorMatcher.kRedTarget;
+    double target_rotation = 0;
     
     public void update() {
         FireLog.log("colorwheelpos", drive.getEncoder().getPosition());
@@ -47,7 +51,20 @@ public class ColorSpinner {
             }
         }
         else if ( state == State.COLOR_ROTATE ) {
-
+            if ( matcher.get_color() != expectedColor ) {
+                drive.set(constants.colorwheel_slow);
+            }
+            else {
+                state = State.COLOR_ROTATE_FINAL;
+                target_rotation = constants.colorwheel_past + drive.getEncoder().getPosition();
+            }
+        }
+        else if ( state == State.COLOR_ROTATE_FINAL ) {
+            if ( drive.getEncoder().getPosition() < target_rotation ) {
+                drive.set(constants.colorwheel_slow);
+            }
+            else
+                state = State.DISABLED;
         }
     }
 
@@ -59,6 +76,12 @@ public class ColorSpinner {
         if ( state != State.ENC_ROTATE ) {
             drive.getEncoder().setPosition(0);
             state = State.ENC_ROTATE;
+        }
+    }
+
+    public void find_color() {
+        if ( state != State.COLOR_ROTATE ) {
+            state = State.COLOR_ROTATE;
         }
     }
 

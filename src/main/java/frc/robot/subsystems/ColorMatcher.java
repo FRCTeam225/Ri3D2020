@@ -58,7 +58,7 @@ public class ColorMatcher {
     m_colorMatcher.setConfidenceThreshold(0.80);
   }
 
-  public void Periodic() {
+  public Color get_color() {
     /**
      * The method GetColor() returns a normalized color value from the sensor and
      * can be useful if outputting the color to an RGB LED or similar. To read the
@@ -76,7 +76,6 @@ public class ColorMatcher {
      */
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
-    matchedResult = match;
 
     if (match.color == kBlueTarget) {
       colorString = "Blue";
@@ -99,9 +98,6 @@ public class ColorMatcher {
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
     FireLog.log("detected_color", colorString);
-  }
-
-  public ColorMatchResult getResult() {
-    return matchedResult;
+    return match.color;
   }
 }

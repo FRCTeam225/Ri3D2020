@@ -13,10 +13,11 @@ public class Constants {
     public double feeder_speed = 1.0;
     public double intake_speed = 1.0;
 
-    public double shoot_speed = -1.0;
+    public double shoot_speed = 1.0;
 
-    public double autointake_threshold = 0;
-    public double autointake_speed = -0.3;
+    public double autointake_threshold = 50;
+    public double autointake_speed = 0.4;
+    public double colorwheel_past = 2;
 
     public double shooterP = 0.0011;
     public double shooterI = 0;
@@ -31,6 +32,8 @@ public class Constants {
     public double colorwheel_slow = 0.2;
     public double colorwheel_fast = 0.3;
     public double colorwheel_ticks = 5000;
+
+    public double climber_limit = 10;
 
     public byte panelsToSpin = 26;
 }

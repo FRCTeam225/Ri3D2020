@@ -26,7 +26,7 @@ public class Intake {
     CANSparkMax feeder_motor = new CANSparkMax(PortMap.FEED_CAN, MotorType.kBrushless);
     Solenoid intake_solenoid = new Solenoid(PortMap.INTAKE_SOLENOID);
 
-    TimeOfFlight index_sensor = new TimeOfFlight(PortMap.TOF_FIRST_CAN);
+    TimeOfFlight index_sensor = new TimeOfFlight(PortMap.TOF_SECOND_CAN);
 
     Constants constants = Constants.getConstants();
 
@@ -38,6 +38,7 @@ public class Intake {
     State state = State.AUTOINTAKE;
 
     public Intake() {
+        intake_solenoid.set(true);
     }
 
     public void update() {
@@ -46,6 +47,7 @@ public class Intake {
 
     public void autointake() {
         intake_solenoid.set(true);
+        intake_motor.set(constants.intake_speed);
         if ( index_sensor.getRange() < constants.autointake_threshold ) {
             feeder_motor.set(constants.autointake_speed);
             for ( TalonSRX motor : indexer_motors ) {
@@ -62,14 +64,16 @@ public class Intake {
 
     public void disable() {
         feeder_motor.set(0);
+        intake_motor.set(0);
         for ( TalonSRX motor : indexer_motors ) {
             motor.set(ControlMode.PercentOutput, 0);
         }
-        intake_solenoid.set(false);
+        //intake_solenoid.set(false);
     }
 
     public void eject() {
         feeder_motor.set(-constants.shoot_speed);
+        intake_motor.set(constants.intake_speed);
         for ( TalonSRX motor : indexer_motors ) {
             motor.set(ControlMode.PercentOutput, -constants.shoot_speed);
         }

@@ -3,14 +3,12 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import org.techfire225.*;
+import org.techfire225.webapp.FireLog;
 
-import frc.robot.OI;
+import frc.robot.Constants;
 import frc.robot.PortMap;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Counter;
 
 public class Climber {
 
@@ -19,25 +17,32 @@ public class Climber {
         new CANSparkMax(PortMap.CLIMBER_CAN[1], MotorType.kBrushless)
     };
 
-    CANSparkMax balance = new CANSparkMax(PortMap.BALANCE_CAN, MotorType.kBrushless);
+    Solenoid lockSolenoid = new Solenoid(PortMap.CLIMB_SOLENOID);
 
+    Constants constants = Constants.getConstants();
 
     public void set(double speed) {
+        if ( Math.abs(speed) < 0.08 )
+            speed = 0;
+
+        if ( speed < 0 && getPos() <= 10 ) {
+            speed = 0;
+        }
+        else if ( speed > 0 && getPos() >= constants.climber_limit ) {
+            speed = 0;
+        }
+
+        lockSolenoid.set(Math.abs(speed) > 0);
+
         for(CANSparkMax climber : climberMotors)
             climber.set(speed);
     }
 
-    public void setBalance(double speed){
-        balance.set(speed);
-    }
-
-    public double getPos(){
+    public double getPos() {
         return climberMotors[0].getEncoder().getPosition();
     }
 
-    /*public double getBalPos(){
-        return hexEnc.get();
-    }*/
-
-    
+    public void update() {
+        FireLog.log("climberPos", getPos());
+    }
 }

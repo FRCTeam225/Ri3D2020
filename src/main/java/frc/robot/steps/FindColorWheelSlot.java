@@ -25,6 +25,7 @@ public class FindColorWheelSlot implements AutonomousStep {
 
     @Override
     public boolean run() {
+        /*
         boolean readConsistent = false;
 
         // run the motor to spin the wheel
@@ -48,6 +49,8 @@ public class FindColorWheelSlot implements AutonomousStep {
             // keep running
             return true;
         }
+        */
+        return false;
     }
 
     @Override
